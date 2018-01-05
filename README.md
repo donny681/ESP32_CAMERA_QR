@@ -1,0 +1,1 @@
+# ESP32_CAMERA_QR
