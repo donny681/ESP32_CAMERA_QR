@@ -43,13 +43,15 @@ If you are an owner of [ESP-WROVER V1 (aka DevKitJ)](http://dl.espressif.com/dl/
 
 ### Camera
 
-This example has been tested with OV7725 camera module. Use it, if this is your first exposure to interfacing a microcontroller with a camera.
+This example has been tested with OV7725 and ov2640 camera modules. Use it, if this is your first exposure to interfacing a microcontroller with a camera.
 
 Other OV7xxx series should work as well, with some changes to camera configuration code. OV5xxx can work too, but it is advisable to choose the ones which support RGB or YUV 8-bit wide output bus. The ones which only output 10-bit raw data may be a bit harder to work with. Also choose the camera which can output a scaled down (QVGA or VGA) image. Use of larger frame buffers will require external SPI RAM.
 
-### ESP-IDF
+### Ai-Thinker CAM board
 
-Configure your PC according to [ESP32 Documentation](http://esp-idf.readthedocs.io/en/latest/?badge=latest). [Windows](http://esp-idf.readthedocs.io/en/latest/windows-setup.html), [Linux](http://esp-idf.readthedocs.io/en/latest/linux-setup.html) and [Mac OS](http://esp-idf.readthedocs.io/en/latest/macos-setup.html) are supported. If this is you first exposure to ESP32 and [esp-idf](https://github.com/espressif/esp-idf), then get familiar with [01_hello_world](https://github.com/espressif/esp-idf/tree/master/examples/01_hello_world) and [02_blink](https://github.com/espressif/esp-idf/tree/master/examples/02_blink) examples. Make them work and understand before proceeding further.
+Ai-Thinker Launch a camera board.This board contain camera interface,TF card and ESP32 with psram.It is very a samll module.The size of the board is 40mm*26mm*4mm.You can plug the camera in the board.
+![Aithinker camera board](https://github.com/donny681/ESP32_CAMERA_QR/blob/master/pictures/aithinker%20board.jpg)
+
 
 ## Quick Start
 
