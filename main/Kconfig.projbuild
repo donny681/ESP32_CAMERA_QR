@@ -1,0 +1,76 @@
+menu "ESP32 Camera Demo Configuration"
+
+config WIFI_SSID
+    string "WiFi SSID"
+    default ""
+    help
+        SSID (network name) for the demo to connect to.
+
+config WIFI_PASSWORD
+    string "WiFi Password"
+    default ""
+    help
+        Password for your network.
+        
+config XCLK_FREQ
+    int "XCLK Frequency"
+    default "20000000"
+    help
+        The XCLK Frequency in Herz.
+
+      
+menu "Pin Configuration"
+    config D0
+        int "D0"
+        default "5"
+    config D1
+        int "D1"
+        default "18"
+    config D2
+        int "D2"
+        default "19"
+    config D3
+        int "D3"
+        default "21"
+    config D4
+        int "D4"
+        default "36"
+    config D5
+        int "D5"
+        default "39"
+    config D6
+        int "D6"
+        default "34"
+    config D7
+        int "D7"
+        default "35"
+    config XCLK
+        int "XCLK"
+        default "0"
+    config PCLK
+        int "PCLK"
+        default "22"
+    config VSYNC
+        int "VSYNC"
+        default "25"
+    config HREF
+        int "HREF"
+        default "23"
+    config SDA
+        int "SDA"
+        default "26"
+    config SCL
+        int "SCL"
+        default "27"
+    config RESET
+        int "RESET"
+        default "32"
+endmenu
+
+config QR_RECOGNIZE
+	bool "QR recognize Support"
+	default y
+	help
+		Enable this option if you want to recognize qr.
+endmenu
+

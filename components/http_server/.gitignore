@@ -1,0 +1,6 @@
+sdkconfig
+sdkconfig.old
+build
+.cproject
+.project
+.settings
