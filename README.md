@@ -232,9 +232,9 @@ Frames / mismatch : 4630 / 70 (1%), (6531449)
 ```
 The value in brackets with % sign provides number of frames that differ from the test pattern. See code inline comments for more information on this functionality.
 
-## QR recognition
+## QR Recognition
 ESP32_CAMERA_QR contain QR library.
-To do so, run `make menuconfig`, open `ESP32 Camera Demo Configuration` menu option and check QR recognize.
+To do so, run `make menuconfig`, open `ESP32 Camera Demo Configuration` menu option and check QR recognize Support.
 Then change the following define in file `app_main.c`:
 ```
 #define CAMERA_PIXEL_FORMAT CAMERA_PF_GRAYSCALE
