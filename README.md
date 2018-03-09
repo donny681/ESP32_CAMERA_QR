@@ -29,8 +29,9 @@ Other OV7xxx series should work as well, with some changes to camera configurati
 
 Ai-Thinker Launch a camera board.This board contain camera interface,TF card and ESP32 with psram.It is very a samll module.The size of the board is 40mm * 26mm * 4mm.You can plug the camera in the board.We will sell this board in our [taobao](https://shop72165205.taobao.com/?spm=a230r.7195193.1997079397.26.Z8Ck3C).
 
-![Aithinker camera board](https://github.com/donny681/ESP32_CAMERA_QR/blob/master/pictures/aithinker%20board.jpg)
-
+![Aithinker camera board](https://github.com/donny681/ESP32_CAMERA_QR/blob/master/pictures/back.jpg)
+![Aithinker camera board front](https://github.com/donny681/ESP32_CAMERA_QR/blob/master/pictures/front.jpg)
+![Aithinker camera board qr recognize](https://github.com/donny681/ESP32_CAMERA_QR/blob/master/pictures/aithinker_camer_board%20qr%20recognize.jpg)
 Also,if you have an ESP-WROVER-KIT,you can try this demo.
 
 ## Quick Start
@@ -97,6 +98,14 @@ Once module is loaded with code, open a serial terminal.
 
 Camera demo application will first configure XCLK output that is timing operation of the camera chip.
 
+If you set the pin of the xclk as GPIO0,the clock will be output by I2S1.The wave of clock is the best.
+```
+I (71) I2S: DMA Malloc info, datalen=blocksize=256, dma_buf_count=8
+I (71) I2S: PLL_D2: Req RATE: 78125, real rate: 78125.000, BITS: 16, CLKM: 8, BCK: 8, MCLK: 20000000.000, SCLK: 2500000.000000, diva: 64, divb: 0
+I (81) camera_xclk: PIN_CTRL before:3ff
+I (81) camera_xclk: PIN_CTRL after:7fff
+```
+If you set the pin of the xclk as other GPIO,the clock will be output by ledc.
 ```
 D (1527) camera: Enabling XCLK output
 I (1527) ledc: LEDC_PWM CHANNEL 0|GPIO 21|Duty 0004|Time 0
@@ -223,9 +232,9 @@ Frames / mismatch : 4630 / 70 (1%), (6531449)
 ```
 The value in brackets with % sign provides number of frames that differ from the test pattern. See code inline comments for more information on this functionality.
 
-## QR recognition
+## QR Recognition
 ESP32_CAMERA_QR contain QR library.
-To do so, run `make menuconfig`, open `ESP32 Camera Demo Configuration` menu option and check QR recognize.
+To do so, run `make menuconfig`, open `ESP32 Camera Demo Configuration` menu option and check QR recognize Support.
 Then change the following define in file `app_main.c`:
 ```
 #define CAMERA_PIXEL_FORMAT CAMERA_PF_GRAYSCALE
@@ -246,15 +255,7 @@ We are planning to test and compare images captured using:
 
 ## Help
 + Hope developers to provide the driver of OV2640 cif mode.
-+ We are going to add other camera.if you have the driver of camera,please tell to me. 
++ We are going to add other camera.if you have the driver of new camera,please tell to me. 
 
 
-## Contribute
 
-You are welcome to contribute to this repository by providing documentation to code, submitting issue reports, enhancement requests and pull requests. Contributions should follow [Contributions Guide](http://esp-idf.readthedocs.io/en/latest/contributing.html) section of ESP32 Programming Guide.
-
-## Acknowledgments
-
-This application is using code developed by:
-* OpenMV implementation for OV7725 by Ibrahim Abdelkader
-* Software I2C library for ESP31B by Hristo Gochkov
