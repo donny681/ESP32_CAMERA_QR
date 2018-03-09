@@ -54,8 +54,8 @@ static const int CONNECTED_BIT = BIT0;
 static ip4_addr_t s_ip_addr;
 static camera_pixelformat_t s_pixel_format;
 
-#define CAMERA_PIXEL_FORMAT CAMERA_PF_GRAYSCALE
-#define CAMERA_FRAME_SIZE CAMERA_FS_QVGA
+#define CAMERA_PIXEL_FORMAT CAMERA_PF_RGB565
+#define CAMERA_FRAME_SIZE CAMERA_FS_QQVGA
 
 
 void app_main()
@@ -181,11 +181,10 @@ static void handle_grayscale_pgm(http_context_t http_ctx, void* ctx)
     write_frame(http_ctx);
     http_response_end(http_ctx);
     ESP_LOGI(TAG, "Free heap: %u", xPortGetFreeHeapSize());
-    if(CONFIG_QR_RECOGNIZE==true)
-    {
+#if CONFIG_QR_RECOGNIZE
     camera_config_t *camera_config = ctx;
     xTaskCreate(qr_recoginze, "qr_recoginze", 111500, camera_config, 5, NULL);
-    }
+#endif
 }
 
 static void handle_rgb_bmp(http_context_t http_ctx, void* ctx)
