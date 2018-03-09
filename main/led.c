@@ -10,7 +10,7 @@
 #include "driver/gpio.h"
 #include "driver/ledc.h"
 #include "esp_err.h"
-
+#include "factorytest.h"
 #include "led.h"
 static bool light_state = true;
 //void led_init() {
@@ -64,7 +64,8 @@ void led_open() {
 	ledc_set_duty(ledc_channel.speed_mode, ledc_channel.channel,
 				LEDC_TEST_DUTY);
 		ledc_update_duty(ledc_channel.speed_mode, ledc_channel.channel);
-		vTaskDelay(5000 / portTICK_PERIOD_MS);
+		if(test_mode)
+		vTaskDelay(1000 / portTICK_PERIOD_MS);
 }
 
 void led_close() {

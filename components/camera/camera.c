@@ -44,6 +44,8 @@
 #include "sccb.h"
 #include "wiring.h"
 #include "camera.h"
+
+#include "../../main/factorytest.h"
 #include "camera_common.h"
 #include "xclk.h"
 #include "twi.h"
@@ -219,80 +221,81 @@ esp_err_t camera_init(const camera_config_t* config) {
 		goto fail;
 	}
 	s_state->sensor.set_pixformat(&s_state->sensor, pix_format);
-
+	if (!gpio_get_level(TEST_GPIO))
+	{
 #if ENABLE_TEST_PATTERN
-	/* Test pattern may get handy
-	 if you are unable to get the live image right.
-	 Once test pattern is enable, sensor will output
-	 vertical shaded bars instead of live image.
-	 */
-	s_state->sensor.set_colorbar(&s_state->sensor, 1);
-	ESP_LOGD(TAG, "Test pattern enabled");
+		/* Test pattern may get handy
+		 if you are unable to get the live image right.
+		 Once test pattern is enable, sensor will output
+		 vertical shaded bars instead of live image.
+		 */
+		s_state->sensor.set_colorbar(&s_state->sensor, 1);
+		ESP_LOGD(TAG, "Test pattern enabled");
 #endif
-
-	if (pix_format == PIXFORMAT_GRAYSCALE) {
+	}
+		if (pix_format == PIXFORMAT_GRAYSCALE) {
 //		if (s_state->sensor.id.PID != OV7725_PID) {
 //			ESP_LOGE(TAG, "Grayscale format is only supported for ov7225");
 //			err = ESP_ERR_NOT_SUPPORTED;
 //			goto fail;
 //		}
-		s_state->fb_size = s_state->width * s_state->height;
-		if (is_hs_mode()) {
-			s_state->sampling_mode = SM_0A0B_0B0C;
-			s_state->dma_filter = &dma_filter_grayscale_highspeed;
-		} else {
-			s_state->sampling_mode = SM_0A0B_0C0D;
-			s_state->dma_filter = &dma_filter_grayscale;
-		}
-		s_state->in_bytes_per_pixel = 2;       // camera sends YUYV
-		s_state->fb_bytes_per_pixel = 1;       // frame buffer stores Y8
-	} else if (pix_format == PIXFORMAT_RGB565) {
+			s_state->fb_size = s_state->width * s_state->height;
+			if (is_hs_mode()) {
+				s_state->sampling_mode = SM_0A0B_0B0C;
+				s_state->dma_filter = &dma_filter_grayscale_highspeed;
+			} else {
+				s_state->sampling_mode = SM_0A0B_0C0D;
+				s_state->dma_filter = &dma_filter_grayscale;
+			}
+			s_state->in_bytes_per_pixel = 2;       // camera sends YUYV
+			s_state->fb_bytes_per_pixel = 1;       // frame buffer stores Y8
+		} else if (pix_format == PIXFORMAT_RGB565) {
 //		if (s_state->sensor.id.PID != OV7725_PID) {
 //			ESP_LOGE(TAG, "RGB565 format is only supported for ov7225");
 //			err = ESP_ERR_NOT_SUPPORTED;
 //			goto fail;
 //		}
-		s_state->fb_size = s_state->width * s_state->height * 3;
-		if (is_hs_mode()) {
-			s_state->sampling_mode = SM_0A0B_0B0C;
-		} else {
-			s_state->sampling_mode = SM_0A00_0B00;
-		}
-		s_state->in_bytes_per_pixel = 2;       // camera sends RGB565 (2 bytes)
-		s_state->fb_bytes_per_pixel = 3;       // frame buffer stores RGB888
-		s_state->dma_filter = &dma_filter_rgb565;
+			s_state->fb_size = s_state->width * s_state->height * 3;
+			if (is_hs_mode()) {
+				s_state->sampling_mode = SM_0A0B_0B0C;
+			} else {
+				s_state->sampling_mode = SM_0A00_0B00;
+			}
+			s_state->in_bytes_per_pixel = 2;    // camera sends RGB565 (2 bytes)
+			s_state->fb_bytes_per_pixel = 3;       // frame buffer stores RGB888
+			s_state->dma_filter = &dma_filter_rgb565;
 
-	} else if (pix_format == PIXFORMAT_JPEG) {
-		if (s_state->sensor.id.PID != OV2640_PID) {
-			ESP_LOGE(TAG, "JPEG format is only supported for ov2640");
+		} else if (pix_format == PIXFORMAT_JPEG) {
+			if (s_state->sensor.id.PID != OV2640_PID) {
+				ESP_LOGE(TAG, "JPEG format is only supported for ov2640");
+				err = ESP_ERR_NOT_SUPPORTED;
+				goto fail;
+			}
+			int qp = config->jpeg_quality;
+			int compression_ratio_bound;
+			if (qp >= 30) {
+				compression_ratio_bound = 5;
+			} else if (qp >= 10) {
+				compression_ratio_bound = 10;
+			} else {
+				compression_ratio_bound = 20;
+			}
+			(*s_state->sensor.set_quality)(&s_state->sensor, qp);
+			size_t equiv_line_count = s_state->height / compression_ratio_bound;
+			s_state->fb_size = s_state->width * equiv_line_count * 2 /* bpp */;
+			s_state->dma_filter = &dma_filter_jpeg;
+			if (is_hs_mode()) {
+				s_state->sampling_mode = SM_0A0B_0B0C;
+			} else {
+				s_state->sampling_mode = SM_0A00_0B00;
+			}
+			s_state->in_bytes_per_pixel = 2;
+			s_state->fb_bytes_per_pixel = 2;
+		} else {
+			ESP_LOGE(TAG, "Requested format is not supported");
 			err = ESP_ERR_NOT_SUPPORTED;
 			goto fail;
 		}
-		int qp = config->jpeg_quality;
-		int compression_ratio_bound;
-		if (qp >= 30) {
-			compression_ratio_bound = 5;
-		} else if (qp >= 10) {
-			compression_ratio_bound = 10;
-		} else {
-			compression_ratio_bound = 20;
-		}
-		(*s_state->sensor.set_quality)(&s_state->sensor, qp);
-		size_t equiv_line_count = s_state->height / compression_ratio_bound;
-		s_state->fb_size = s_state->width * equiv_line_count * 2 /* bpp */;
-		s_state->dma_filter = &dma_filter_jpeg;
-		if (is_hs_mode()) {
-			s_state->sampling_mode = SM_0A0B_0B0C;
-		} else {
-			s_state->sampling_mode = SM_0A00_0B00;
-		}
-		s_state->in_bytes_per_pixel = 2;
-		s_state->fb_bytes_per_pixel = 2;
-	} else {
-		ESP_LOGE(TAG, "Requested format is not supported");
-		err = ESP_ERR_NOT_SUPPORTED;
-		goto fail;
-	}
 
 	ESP_LOGD(TAG,
 			"in_bpp: %d, fb_bpp: %d, fb_size: %d, mode: %d, width: %d height: %d",
