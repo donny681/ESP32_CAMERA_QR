@@ -49,7 +49,7 @@ Specific pins used in this example to connect ESP32 and camera are shown in tabl
 | System Clock | XCLK | IO21 | IO0 |
 | Vertical Sync | VSYNC | IO25 | IO25 |
 | Horizontal Reference | HREF | IO23 | IO26 |
-| Pixel Clock | PCLK | IO22 | IO21 |
+| Pixel Clock | PCLK | IO22 | IO0 |
 | Pixel Data Bit 0 | D2 | IO4 | IO5 |
 | Pixel Data Bit 1 | D3 | IO5 | IO18 |
 | Pixel Data Bit 2 | D4 | IO18 | IO19 |
