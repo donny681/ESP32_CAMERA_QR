@@ -36,7 +36,7 @@ esp_err_t camera_enable_out_clock(camera_config_t* config) {
 	} else {
 		const int i2s_num = 1; // i2s port number
 		const i2s_config_t i2s_config = { .mode = I2S_MODE_MASTER | I2S_MODE_TX,
-				.sample_rate = 78125, .bits_per_sample = 16, .channel_format =
+				.sample_rate = config->xclk_freq_hz/256, .bits_per_sample = 16, .channel_format =
 						I2S_CHANNEL_FMT_RIGHT_LEFT, .communication_format =
 						I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_MSB,
 				.intr_alloc_flags = 0, // default interrupt priority
