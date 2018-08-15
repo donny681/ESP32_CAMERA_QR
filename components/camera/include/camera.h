@@ -33,6 +33,8 @@ typedef enum {
     CAMERA_FS_QVGA = 8,      //!< 320x240
     CAMERA_FS_VGA = 10,      //!< 640x480
     CAMERA_FS_SVGA = 11,     //!< 800x600
+	CAMERA_FS_SXGA=12,		//	1280* 1024
+	CAMERA_FS_UXGA=13,		//1600*1200
 } camera_framesize_t;
 
 typedef enum {
