@@ -126,6 +126,8 @@ void app_main()
     http_server_options_t http_options = HTTP_SERVER_OPTIONS_DEFAULT();
     ESP_ERROR_CHECK( http_server_start(&http_options, &server) );
 
+    led_init();
+
     if (s_pixel_format == CAMERA_PF_GRAYSCALE) {
         ESP_ERROR_CHECK( http_register_handler(server, "/pgm", HTTP_GET, HTTP_HANDLE_RESPONSE, &handle_grayscale_pgm, &camera_config) );
         ESP_LOGI(TAG, "Open http://" IPSTR "/pgm for a single image/x-portable-graymap image", IP2STR(&s_ip_addr));
