@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "../components/http_server/my_http_server.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
@@ -31,7 +32,6 @@
 #include "driver/gpio.h"
 #include "camera.h"
 #include "bitmap.h"
-#include "http_server.h"
 #include "led.h"
 #include "qr_recoginize.h"
 static void handle_grayscale_pgm(http_context_t http_ctx, void* ctx);
@@ -55,7 +55,7 @@ static ip4_addr_t s_ip_addr;
 static camera_pixelformat_t s_pixel_format;
 
 #define CAMERA_PIXEL_FORMAT CAMERA_PF_JPEG
-#define CAMERA_FRAME_SIZE CAMERA_FS_QQVGA
+#define CAMERA_FRAME_SIZE CAMERA_FS_SVGA
 
 
 void app_main()

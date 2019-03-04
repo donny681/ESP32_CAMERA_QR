@@ -48,7 +48,7 @@ esp_err_t camera_enable_out_clock(camera_config_t* config) {
 		i2s_driver_install(i2s_num, &i2s_config, 0, NULL); //install and start i2s driver
 		i2s_set_pin(i2s_num, &pin_config);
 		uint32_t reg_val = REG_READ(PIN_CTRL);
-		ESP_LOGI(TAG, "PIN_CTRL before:%x", reg_val);
+		ESP_LOGI(TAG, "PIN_CTRL before:%x,%d", reg_val,config->xclk_freq_hz/256);
 		REG_WRITE(PIN_CTRL, 0xFFFFFFFF);
 		reg_val = REG_READ(PIN_CTRL);
 		ESP_LOGI(TAG, "PIN_CTRL after:%x", reg_val);

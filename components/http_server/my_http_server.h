@@ -28,8 +28,9 @@ extern "C" {
  */
 
 /* Pull in the definitions of HTTP methods */
+#include <stdbool.h>
 #include "http_parser.h"
-
+#include "esp_err.h"
 /**
  * Bit masks for events to be passed to a handler
  */
