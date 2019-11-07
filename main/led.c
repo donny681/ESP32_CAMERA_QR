@@ -26,7 +26,6 @@ static bool light_state = true;
 				.gpio_num = LED_GPIO, .speed_mode = LEDC_LS_MODE, .timer_sel =
 						LEDC_LS_TIMER };
 void led_init() {
-	int ch;
 
 	/*
 	 * Prepare and set configuration of timers
