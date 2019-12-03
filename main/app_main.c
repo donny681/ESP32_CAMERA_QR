@@ -51,7 +51,7 @@ static const char* STREAM_BOUNDARY = "--123456789000000000000987654321";
 
 EventGroupHandle_t s_wifi_event_group;
 static const int CONNECTED_BIT = BIT0;
-static ip4_addr_t s_ip_addr;
+static esp_ip4_addr_t s_ip_addr;
 static camera_pixelformat_t s_pixel_format;
 
 #define CAMERA_PIXEL_FORMAT CAMERA_PF_JPEG

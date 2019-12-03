@@ -6,6 +6,7 @@ Code provided in this repository gets the image from camera and prints it out as
 + support OV2640 to output JPEG format .
 + support OV2640 and OV7725 to output grayscale format.
 + support QR recognize.
++ support ESP-IDF V4.0 
 
 ## Components
 
@@ -245,6 +246,9 @@ note:
 + The size of photo can't be over VGA.Or the ram may be  oversize.
 
 ![QR recognition](https://github.com/donny681/ESP32_CAMERA_QR/blob/master/pictures/qr_recognize.jpg)
+
+## Note:
+If log debug come out "Camera probe failed with error 0x20001",please check whehter the camera connect to Board or check the pin Num.
 
 ## Next Steps
 
