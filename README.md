@@ -5,6 +5,7 @@ Code provided in this repository gets the image from camera and prints it out as
 ## Function
 + support OV2640 to output JPEG format .
 + support OV2640 and OV7725 to output grayscale format.
++ support OV7670 in grayscale format.
 + support QR recognize.
 
 ## Components
