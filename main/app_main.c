@@ -86,7 +86,7 @@ void app_main()
         .ledc_timer = LEDC_TIMER_0,
         .ledc_channel = LEDC_CHANNEL_0,
 
-        .pixel_format = PIXFORMAT_GRAYSCALE, /*PIXFORMAT_RGB565,*/ 
+        .pixel_format = PIXFORMAT_GRAYSCALE, /*PIXFORMAT_RGB888,*/ 
         .frame_size = FRAMESIZE_QQVGA,      //QQVGA-QXGA Do not use sizes above QVGA when not JPEG
 
         .jpeg_quality = 12, //0-63 lower number means higher quality
@@ -460,7 +460,7 @@ static httpd_handle_t start_webserver(void)
             ESP_LOGI(TAG, "Open http://" IPSTR "/bmp for a single image/bmp gray image", IP2STR(&s_ip_addr));
             ESP_LOGI(TAG, "Open http://" IPSTR "/bmp_stream for multipart/x-mixed-replace stream of gray bitmaps", IP2STR(&s_ip_addr));
             ESP_LOGI(TAG, "Open http://" IPSTR "/pgm for a single image/x-portable-graymap image", IP2STR(&s_ip_addr));
-        } else if (sensor->pixformat == PIXFORMAT_RGB565) {
+        } else if (sensor->pixformat == PIXFORMAT_RGB888) {
             httpd_register_uri_handler(server, &bmp);
             httpd_register_uri_handler(server, &bmp_stream);
             
