@@ -16,13 +16,14 @@ To make this code work, you need the following components:
 * [ESP32](https://espressif.com/en/products/hardware/esp32/overview) module
 * Camera module
 * PC with [esp-idf](https://github.com/espressif/esp-idf)
+* Camera lib [esp32-camera](https://github.com/jjsch-dev/esp32-camera)
 
 See the following sections for more details.
 
 
 ### Camera
 
-This example has been tested with OV7725 and ov2640 camera modules. Use it, if this is your first exposure to interfacing a microcontroller with a camera.
+This example has been tested with OV7725, ov2640 OV7670 camera modules. Use it, if this is your first exposure to interfacing a microcontroller with a camera.
 
 Other OV7xxx series should work as well, with some changes to camera configuration code. OV5xxx can work too, but it is advisable to choose the ones which support RGB or YUV 8-bit wide output bus. The ones which only output 10-bit raw data may be a bit harder to work with. Also choose the camera which can output a scaled down (QVGA or VGA) image. Use of larger frame buffers will require external SPI RAM.
 
