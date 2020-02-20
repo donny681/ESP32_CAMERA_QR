@@ -30,6 +30,7 @@
 #include "nvs_flash.h"
 #include "driver/gpio.h"
 #include "esp_camera.h"
+#include "esp_netif.h"
 #include "bitmap.h"
 #include "led.h"
 #include "qr_recoginize.h"
@@ -99,7 +100,7 @@ void app_main()
         return;
     }
 
-    tcpip_adapter_init();
+    ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
 
     /* This helper function configures Wi-Fi or Ethernet, as selected in menuconfig.
