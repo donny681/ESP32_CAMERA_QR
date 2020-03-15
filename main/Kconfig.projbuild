@@ -51,13 +51,154 @@ menu "Pin Configuration"
         default "27"
     config RESET
         int "RESET"
-        default "32"
+        default "2"
 endmenu
+
 
 config QR_RECOGNIZE
 	bool "QR recognize Support"
 	default y
 	help
 		Enable this option if you want to recognize qr.
+
+choice PIXEL_FORMAT
+    prompt "Select the pixel format"
+    default PIXFORMAT_RGB565
+    help
+        Select the sensor output pixel format.
+
+    config PIXFORMAT_RGB565
+        bool "RGB565"
+        help
+            The RGB565 color format is the same as the RGB555 color format, 
+            except that 6 bits are used for the green value instead of 5. 
+            Therefore, all 16 bits are in use.
+
+    config PIXFORMAT_YUV422
+        bool "YUV422"
+        help
+            4 bytes per 2 pixels.
+
+    config PIXFORMAT_GRAYSCALE
+        bool "GRAYSCALE"
+        help
+            The value of each pixel is a single sample representing only an amount of light, 
+            that is, it carries only intensity information.
+
+    config PIXFORMAT_JPEG
+        bool "JPEG"
+        help
+            JPEG compression.
+
+    config PIXFORMAT_RGB888
+        bool "RGB888"
+        help
+            uncompressed, 3 bytes for pixel.
+
+    config PIXFORMAT_RAW
+        bool "RAW"
+        help
+            raw.
+
+    config PIXFORMAT_RGB444
+        bool "RGB444"
+        help
+            2 bytes por pixel.
+
+    config PIXFORMAT_RGB555
+        bool "RGB555"
+        help
+            2 bytes por pixel.
+endchoice
+
+choice FRAME_SIZE
+    prompt "Select the frame size"
+    default FRAMESIZE_QQVGA
+    help
+        Select the sensor output frame size.
+
+    config FRAMESIZE_96X96
+        bool "96x96"
+        help
+            96 x 96 pixeles.
+
+    config FRAMESIZE_QQVGA
+        bool "QQVGA"
+        help
+            160 x 120 pixeles.
+
+    config FRAMESIZE_QCIF     
+        bool "QCIF"
+        help
+            176 x 144 pixeles.
+
+    config FRAMESIZE_HQVGA
+        bool "HQVGA"
+        help
+            240 x 176.
+
+    config FRAMESIZE_240X240
+        bool "240x240"
+        help
+            240 x 240 pixeles.
+
+    config FRAMESIZE_QVGA
+        bool "QVGA"
+        help
+            320 x 240 pixeles.
+
+    config FRAMESIZE_CIF
+        bool "CIF"
+        help
+            400 x 296 pixeles.
+
+    config FRAMESIZE_HVGA     
+        bool "HVGA"
+        help
+            480 x 320 pixeles.
+    
+    config FRAMESIZE_VGA     
+        bool "VGA"
+        help
+            640 x 480 pixeles.
+
+    config FRAMESIZE_SVGA     
+        bool "SVGA"
+        help
+            800 x 600 pixeles.
+
+    config FRAMESIZE_XGA     
+        bool "XGA"
+        help
+            1024 x 768 pixeles.
+
+    config FRAMESIZE_HD     
+        bool "HD"
+        help
+            1280 x 720 pixeles.
+endchoice
+
+config ENABLE_TEST_PATTERN
+	bool "Enable test pattern on camera output"
+	default n
+	help
+		Configure the camera module to output test pattern instead of live image.
+		
+		Use this option to troubleshoot image issues like noise,
+		distortion, not legible and missing live image.
+		Instead, module will generate regular vertical bars 
+		in shades from dark to white.
+
+config ENABLE_VERTICAL_FLIP
+	bool "Enable vertical flip on camera output"
+	default n
+	help
+		Flip the frame of the the camera module.
+
+config ENABLE_HORIZONTAL_MIRROR
+    bool "Enable horizontal mirror on camera output"
+	default n
+	help
+		Mirror the frame of the the camera module.
 endmenu
 
